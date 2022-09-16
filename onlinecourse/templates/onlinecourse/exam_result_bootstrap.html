@@ -52,27 +52,35 @@
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
             {% for lesson in course.lesson_set.all %}
-                        {% for question in lesson.question_set.all %}
-                            <div class="card mt-1">
-                                <div class="card-header"><h5>{{ question.question_text}}</h5></div>
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {% for choice in lesson.question_set.is_correct %}
-                                    <p>Correct answer: {{ choice.choice_text }}</p>
-                                    {% for choice in selected_ids %}
-                                    <div>
-                                        <p>
-                                            {{ choice.choice_text }}
-                                        </p>
-                                    </div>
-                                    {% endfor %}
-                                </div>
+                    {% for question in lesson.question_set.all %}
+                        <div class="card mt-1">
+                            <div class="card-header"><h5>{{ question.question_text}}</h5></div>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                
+
+
+                                {% for selected in selected_ids%}
+                                    {% if selected.is_correct %}
+                                        <p class='text-success'>Correct answer: {{ selected.choice_text }}</p>
+                                    {% else %}
+                                        <p  class='text-danger'>Incorrect answer {{ selected.choice_text }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for choice in question.choice_set.all %}
+                                    {% if choice.is_correct and choice not in selected_ids %}
+                                    <p class='text-warning'>Not selected: {{ choice.choice_text }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                               
                             </div>
-                        {% endfor %}
-                    <input class="btn btn-success btn-block" type="submit" value="Submit">
-    
-    
-                    {% endfor %}
+                        </div>
+                    
+                <input class="btn btn-success btn-block" type="submit" value="Submit">
+
+
+                {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </body>
