@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Course, Enrollment, Submission,Question,Choice, Instructor, Learner,Lesson , Submission
+from .onlinecourse.models import Course, Enrollment,Question,Choice, Instructor, Learner,Lesson , Submission
 
 # Create your tests here.
 class OnlineCourseTestCase(TestCase):
